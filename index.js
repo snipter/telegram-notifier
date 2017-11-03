@@ -105,12 +105,13 @@ bot.on('message', msg => {
       chatData.tokens = newTokens;
       delete chatData.tokenWaitForName;
       storage.set(chatId, chatData);
-      let msgText = 'Token created!';
-      if(URL){
-        msgText += ` Use ${URL}/msg?token=${token} for sending messages.`;
+      if(!URL){
+        return bot.sendMessage(chatId, 'Token created!');
+      }else{
+        bot.sendMessage(chatId, 'Token created! Please use this url for sending messages.');
+        return bot.sendMessage(chatId, `${URL}/msg?token=${token}`);
       }
-      return bot.sendMessage(chatId, `Token saved!`);
     }
   }
-  bot.sendMessage(chatId, `Sorry, I'm not understand you =(`);
+  bot.sendMessage(chatId, 'Sorry, I\'m not understand you =(');
 });
